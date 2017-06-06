@@ -1,0 +1,18 @@
+.Equation {
+  text-align: center;
+  font-size: x-large;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.Answer {
+    text-align: left;
+    width: 40px;
+    font-size: x-large;
+}
+
+.ResultImage {
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  margin-right: 40px;
+}

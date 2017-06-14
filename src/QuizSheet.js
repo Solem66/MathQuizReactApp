@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Equation from './Equation';
+import { Button } from 'react-bootstrap';
 import "./QuizSheet.css";
 
 class QuizSheet extends Component {
@@ -8,26 +9,12 @@ class QuizSheet extends Component {
         this.state = {
             equations : [],
             answers : new Map(),
+            isChecking : false,
         };
-        // Initialize quiz equations
-        for (var i = 0; i < props.numEqns; i++) {
-            var sum = getRandomInteger(20, props.maxSum);
-            var oprnd1 = getRandomInteger(10, sum);
-            var oprnd2 = sum - oprnd1;
-            var eqn = {
-                operand1 : oprnd1,
-                operand2 : oprnd2,
-                operator : "+",
-                answer : sum,
-                input : "",
-                id : i,
-                resultImg : "blank.png",
-            };
-            this.state.equations.push(eqn);
-        }
     }
 
     check (state) {
+        this.state.isChecking = true;
         var temp = state.equations;
         for (var i = 0; i < temp.length; i++) {
             var correctAnswer = temp[i].answer;
@@ -43,12 +30,46 @@ class QuizSheet extends Component {
 
     updateAnswer (event) {
         var answerId = event.target.id;
-        var temp = this.state.answers;
-        temp.set(answerId, event.target.value);
-        this.setState({answers : temp});
+        //var temp = this.state.answers;
+        //temp.set(answerId, event.target.value);
+        //this.setState({answers : temp});
+        this.state.answers.set(answerId, event.target.value);
     }
 
     render () {
+        if (!this.state.isChecking) {
+            // Initialize quiz equations
+            this.state.equations = [];
+            this.state.answers = new Map();
+            for (var i = 0; i < this.props.numEqns; i++) {
+                var sum = getRandomInteger(25, this.props.maxSum);
+                var oprnd1 = getRandomInteger(10, sum-10);
+                var oprnd2 = sum - oprnd1;
+                // Default for addition
+                var eqn = {
+                    operand1 : oprnd1,
+                    operand2 : oprnd2,
+                    operator : "+",
+                    answer : sum,
+                    input : "",
+                    id : i,
+                    resultImg : "blank.png",
+                };
+                // Change it to subtraction if needed
+                var coinFlip = getRandomInteger(1, 10);
+                if (this.props.qType === "Subtraction" ||
+                    (this.props.qType !== "Addition" && coinFlip > 5)) {
+                    eqn.operand1 = sum;
+                    eqn.operand2 = oprnd1;
+                    eqn.operator = "-";
+                    eqn.answer = oprnd2;
+                }
+                this.state.equations.push(eqn);
+            }
+        } else {
+            this.state.isChecking = false;
+        }
+
         var eqns = [];
         var numEqns = this.state.equations.length;
         for (var i = 0; i < numEqns; i++) {
@@ -67,6 +88,7 @@ class QuizSheet extends Component {
         var col3 = eqns.slice(sliceIdx*2, numEqns);
         return (
             <div className="QuizSheet">
+                <div className="QuestionArea">
                 <table>
                     <tbody>
                         <tr>
@@ -76,11 +98,13 @@ class QuizSheet extends Component {
                         </tr>
                     </tbody>
                 </table>
+                </div>
                 <div className="ButtonAera">
-                    <button className="Button" 
-                            onClick={() => this.check(this.state)}>
-                        Check!
-                    </button>
+                    <Button bsStyle="success"
+                            onClick={() => this.check(this.state)}
+                            bsSize="large" block>
+                            Check!
+                    </Button>
                 </div>
             </div>
         )

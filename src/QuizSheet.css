@@ -3,16 +3,14 @@
   width: 600px;
 }
 
-.ButtonAera {
-  text-align: center;
-  margin-top: 20px;
+.QuestionArea {
+  margin-top: 40px;
+  margin-bottom: 40px;
+  margin-left: 40px;
 }
 
-.Button {
-  font-family: Cambria, Cochin, Georgia, Times, Times New Roman, serif;
-  font-size: x-large;
-  background-color: lightsalmon;
-  border-style: none;
-  cursor: pointer;
+.ButtonAera {
+  text-align: center;
+  margin:  0 auto;
   width: 150px;
 }

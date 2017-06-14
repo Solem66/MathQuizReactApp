@@ -1,13 +1,14 @@
-.Equation {
+.Equation > td {
   text-align: center;
   font-size: x-large;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding-bottom: 20px;
 }
 
 .Answer {
     text-align: left;
     width: 40px;
-    font-size: x-large;
+    font-size: large;
 }
 
 .ResultImage {

@@ -21,7 +21,7 @@ class QuizSheet extends Component {
             if (correctAnswer === inputAnswer) {
                 temp[i].resultImg = "correct.png";
             } else {
-                temp[i].resultImg = "error.png";
+                temp[i].resultImg = "Error.png";
             }
         }
         this.setState({equations : temp,

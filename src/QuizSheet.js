@@ -14,7 +14,6 @@ class QuizSheet extends Component {
     }
 
     check (state) {
-        this.state.isChecking = true;
         var temp = state.equations;
         for (var i = 0; i < temp.length; i++) {
             var correctAnswer = temp[i].answer;
@@ -25,22 +24,23 @@ class QuizSheet extends Component {
                 temp[i].resultImg = "error.png";
             }
         }
-        this.setState({equations : temp});
+        this.setState({equations : temp,
+                       isChecking : true});
     }
 
     updateAnswer (event) {
         var answerId = event.target.id;
-        //var temp = this.state.answers;
-        //temp.set(answerId, event.target.value);
-        //this.setState({answers : temp});
+        // var temp = this.state.answers;
+        // temp.set(answerId, event.target.value);
+        // this.setState({answers : temp});
         this.state.answers.set(answerId, event.target.value);
     }
 
     render () {
         if (!this.state.isChecking) {
             // Initialize quiz equations
-            this.state.equations = [];
-            this.state.answers = new Map();
+            this.state.equations.splice(0, this.state.equations.length);
+            this.state.answers.clear();
             for (var i = 0; i < this.props.numEqns; i++) {
                 var sum = getRandomInteger(25, this.props.maxSum);
                 var oprnd1 = getRandomInteger(10, sum-10);
@@ -67,19 +67,20 @@ class QuizSheet extends Component {
                 this.state.equations.push(eqn);
             }
         } else {
+            // eslint-disable-next-line
             this.state.isChecking = false;
         }
 
         var eqns = [];
         var numEqns = this.state.equations.length;
-        for (var i = 0; i < numEqns; i++) {
-            var eqn = this.state.equations[i];
-            eqns.push(<Equation operand1={eqn.operand1} 
-                                operand2={eqn.operand2}
-                                operator={eqn.operator} 
-                                key={eqn.id} 
-                                resultImage={eqn.resultImg} 
-                                id={eqn.id}
+        for (var j = 0; j < numEqns; j++) {
+            var eqn1 = this.state.equations[j];
+            eqns.push(<Equation operand1={eqn1.operand1} 
+                                operand2={eqn1.operand2}
+                                operator={eqn1.operator} 
+                                key={eqn1.id} 
+                                resultImage={eqn1.resultImg} 
+                                id={eqn1.id}
                                 onBlur={(event) => this.updateAnswer(event)} />);
         }
         var sliceIdx = numEqns / 3;

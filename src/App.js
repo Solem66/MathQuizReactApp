@@ -14,18 +14,26 @@ class App extends Component {
     };
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    // Only re-render component when "Go!" button is clicked on
+    if (this.state.genQuiz !== nextState.genQuiz) {
+      return true;
+    }
+    return false;
+  }
+
   updateNumQuestions(event) {
     var n = Number.parseInt(event.target.value, 10);
-    this.state.numQuestions = n;
+    this.setState({numQuestions : n});
   }
 
   updateQuestionType(event) {
-    this.state.questionType = event.target.value;
+    this.setState({questionType : event.target.value});
   }
 
   updateMaxNumber(event) {
     var max = Number.parseInt(event.target.value, 10);
-    this.state.maxNumber = max;
+    this.setState({maxNumber : max});
   }
 
   generateQuiz() {
